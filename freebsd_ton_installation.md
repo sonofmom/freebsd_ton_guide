@@ -18,20 +18,14 @@ Following packages are required in order to build the TON code: *cmake llvm libm
 ## Build process
 ### Clone the repository
 Full internet access is needed at this stage.
-> git clone https://github.com/ton-blockchain/ton.git
+> git clone https://github.com/newton-blockchain/ton.git
 
-**[TODO]**: Point to the right repository with proper patches applied.
+Please note that we are using `newton` fork of ton because it contains some important adjustments.
 
 #### Initialize submodules
 > cd ton\
 git submodule init\
 git submodule update
-
-#### Introduce FreeBSD compilation fix
-https://github.com/ton-blockchain/ton/pull/276
-
-This must be done, otherwise source will not compile.\
-**[TODO]**: Remove this chapter once we point to the right repository.
 
 ### Compilation
 Ton source tree utilizes cmake build procedure, unlike good old *./configure; make; make install* the cmake build is done in a separate directory, usually it is created under the root of source tree and named *build*. I assume that you created such directory and entered it, now run:

@@ -8,7 +8,6 @@ Following this guide you should be able to spawn nodes for other networks as wel
 Completion of chapter 1 of [FreeBSD Telegram Open Network installation guide](./freebsd_ton_installation.md) and as a result:
 
 * Compiled and installed distribution under `/usr/local/opt/ton`
-* Presence of `/usr/local/etc/ton` global configuration directory
 * Presence of `/var/db/ton` data directory
 * Access to internet from the host
 
@@ -41,9 +40,9 @@ We have downloaded global configuration file for our node, now we can connect to
 ## Chapter 3: Initialize local configuration
 Next step is to create *local configuration* using *global configuration* file downloaded in previous step.
 
-> sudo -u tond /usr/local/opt/ton/bin/validator-engine -C /var/db/ton/newton-testnet/etc/global_config.json --db /var/db/ton/newton-testnet/db --ip <IP>:<PORT> -l /var/db/ton/newton-testnet/log/init.log
+> sudo -u tond /usr/local/opt/ton/bin/validator-engine -C /var/db/ton/newton-testnet/etc/global_config.json --db /var/db/ton/newton-testnet/db --ip ***IP:PORT*** -l /var/db/ton/newton-testnet/log/init.log
 
-Replace <IP> and <PORT> with fixed public IP of your node and PORT number of your choice, I would advise to use high port number beginning from 20000. 
+Replace ***IP*** and ***PORT*** with fixed public IP of your node and PORT number of your choice, I would advise to use high port number beginning from 20000. 
 
 This command will run and exit without any output but if execution was success then local configuration file `/var/db/ton/newton-testnet/db/config.json` would be generated. If the file is not there then something went wrong, check *log files*.
 
@@ -69,7 +68,7 @@ The log file you specify with *-l* parameter points to log file used by **main p
 As a result, during initiation two logs will be made:
 
 * `/var/db/ton/newton-testnet/log/init.log` that ideally should be empty
-* `/var/db/ton/newton-testnet/log/init.log.thread1.log` that will contain information from the thread that actually made the _local configuration_
+* `/var/db/ton/newton-testnet/log/init.log.thread1.log` that will contain information from the thread that actually made the *local configuration*
 
 ## Step 4: Controling your node
 Having a working node is great success but it is of not much use if you cannot control / access it. In order to do this we need to setup remote control CLI access.
