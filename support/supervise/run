@@ -1,0 +1,23 @@
+#!/bin/sh
+# Daemontools TON node initialization script
+# -----------------------------------------------------------------------------
+#
+
+# Full path to validator-engine binary
+VE_BIN="/usr/local/opt/ton/bin/validator-engine"
+SE_BIN="/usr/local/bin/setuidgid"
+
+# Work directory
+WORK_DIR="/var/db/ton/newton-testnet"
+
+# User account to run node under
+USER="tond"
+
+# Threads to spawn
+THREADS=32
+
+GLOBAL_CONFIG=$WORK_DIR/etc/global_config.json
+DB_DIR=$WORK_DIR/db
+LOG_FILE=$WORK_DIR/log/node.log
+
+exec $SE_BIN $USER $VE_BIN -C $GLOBAL_CONFIG --db $DB_DIR -l $LOG_FILE -t$THREADS -d
