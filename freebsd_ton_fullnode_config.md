@@ -15,7 +15,7 @@ We also assume that you chose to create a dedicated user called *tond* and this 
 
 
 ## Chapter 1: Create work directory for your node
-If you run more then one node on one host you should place have a separate work directory for each node under global ton data directory. In our example node work directory will be named: `/var/db/ton/newton-testnet-node`. 
+In our example node work directory will be named: `/var/db/ton/newton-testnet-node`. 
 
 > sudo -u tond mkdir -p /var/db/ton/newton-testnet-node/{etc,db,log}\
 sudo -u tond chmod -R 700 /var/db/ton/newton-testnet-node
