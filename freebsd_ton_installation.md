@@ -95,29 +95,39 @@ sudo service svscan start
 
 ## Step b: Enable node control via daemontools
 ### Create service directory
-> sudo mkdir /var/service/newton-testnet-node
+> sudo mkdir /var/service/.newton-testnet-node
+
+Note that we are prefixing the directory name with a dot, this makes service directory invisible to svscan as we do not want things to start something until we are finished with configuring.
 
 ### Disable auto-start of the service
-> sudo touch /var/service/newton-testnet-node/down
+> sudo touch /var/service/.newton-testnet-node/down
 
-### Create run script
-Download the [run](./support/service/newton-testnet-node/run) file and place it into `/var/service/newton-testnet-node` directory. It should be executable.
+This is optional, only if you do not wish service to auto-start.
 
-**Make sure you review the file content and adjust the variables to your node configuration.**
+### Fetch and edit run script
+Download the [run](./support/service/newton-testnet-node/run) file into `/var/service/.newton-testnet-node` directory and make it executable.
+
+> sudo fetch https://raw.githubusercontent.com/sonofmom/freebsd_ton_guide/master/support/service/newton-testnet-node/run -o /var/service/.newton-testnet-node/run\
+sudo chmod 755 /var/service/.newton-testnet-node/run
+
+**Make sure you review the file content and adjust the variables to your dht server configuration.**
 
 ### Test run script
-> sudo /var/service/newton-testnet-node/run
+> sudo /var/service/.newton-testnet-node/run
 
 If all is correct then the validator node will start as foreground process. If not, please review your instance *log files*
 
-### Restart svscan
-> sudo service svscan restart
+### Make service visible to svscan
+> sudo mv /var/service/newton-testnet-node /var/service/newton-testnet-node
 
 ### Test if service can be started using svscan
-> sudo svc -u /var/service/newton-testnet-node\
-sudo svstat /var/service/newton-testnet-node
+> sudo svc -u /var/service/newton-testnet-node
 
-If all went OK then you should see following message: `/var/service/newton-testnet-node: up (pid 65713) 1 seconds, normally down` where pid and seconds will be different on your system of course.
+Now wait 2-3 seconds and issue 
+
+> sudo svstat /var/service/newton-testnet-node
+
+If all went OK then you should see following message: `/var/service/newton-testnet-node: up (pid 65713) 3 seconds, normally down` where pid and seconds will be different on your system of course.
 
 ### Enable automatic start of service
 > sudo rm /var/service/newton-testnet-node/down
@@ -145,13 +155,15 @@ Please see chapter 2a on how to do that.
 ### Create service directory
 > sudo mkdir /var/service/.newton-testnet-dht
 
-Note that we are prefixing the directory name with a dot, this makes service directory invisible to svscan.
+Note that we are prefixing the directory name with a dot, this makes service directory invisible to svscan as we do not want things to start something until we are finished with configuring.
 
 ### Disable auto-start of the service
 > sudo touch /var/service/.newton-testnet-dht/down
 
+This is optional, only if you do not wish service to auto-start.
+
 ### Fetch and edit run script
-Download the [run](./support/service/newton-testnet-dht/run) file into `/var/service/newton-testnet-dht` directory and make it executable.
+Download the [run](./support/service/newton-testnet-dht/run) file into `/var/service/.newton-testnet-dht` directory and make it executable.
 
 > sudo fetch https://raw.githubusercontent.com/sonofmom/freebsd_ton_guide/master/support/service/newton-testnet-dht/run -o /var/service/.newton-testnet-dht/run\
 sudo chmod 755 /var/service/.newton-testnet-dht/run
@@ -159,7 +171,7 @@ sudo chmod 755 /var/service/.newton-testnet-dht/run
 **Make sure you review the file content and adjust the variables to your dht server configuration.**
 
 ### Test run script
-> sudo -u tond /var/service/.newton-testnet-dht/run
+> sudo /var/service/.newton-testnet-dht/run
 
 If all is correct then the dht server will start as foreground process. If not, please review your instance *log files*
 
