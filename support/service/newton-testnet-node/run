@@ -20,4 +20,4 @@ GLOBAL_CONFIG=$WORK_DIR/etc/global_config.json
 DB_DIR=$WORK_DIR/db
 LOG_FILE=$WORK_DIR/log/node.log
 
-exec $SE_BIN $USER $VE_BIN -C $GLOBAL_CONFIG --db $DB_DIR -l $LOG_FILE -t$THREADS -d
+exec $SE_BIN $USER $VE_BIN --global-config $GLOBAL_CONFIG --db $DB_DIR --logname $LOG_FILE --threads $THREADS

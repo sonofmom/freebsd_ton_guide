@@ -41,7 +41,7 @@ We have downloaded global configuration file for our node, now we can connect to
 ## Chapter 3: Initialize local configuration
 Next step is to create *local configuration* using *global configuration* file downloaded in previous step.
 
-> sudo -u tond /usr/local/opt/ton/bin/validator-engine -C /var/db/ton/newton-testnet-node/etc/global_config.json --db /var/db/ton/newton-testnet-node/db --ip ***IP:PORT*** -l /var/db/ton/newton-testnet-node/log/init.log
+> sudo -u tond /usr/local/opt/ton/bin/validator-engine --global-config /var/db/ton/newton-testnet-node/etc/global_config.json --db /var/db/ton/newton-testnet-node/db --ip ***IP:PORT*** --logname /var/db/ton/newton-testnet-node/log/init.log
 
 Replace ***IP*** and ***PORT*** with fixed public IP of your node and PORT number of your choice, I would advise to use high port number beginning from 20000. 
 
@@ -54,7 +54,7 @@ We have generated a *local configuration* file `/var/db/ton/newton-testnet-node/
 
 Essentially, this is it: your machine can operate as a network node, you can try and start it by running:
 
-> sudo -u tond /usr/local/opt/ton/bin/validator-engine -C /var/db/ton/newton-testnet-node/etc/global_config.json --db /var/db/ton/newton-testnet-node/db -l /var/db/ton/newton-testnet-node/log/node.log
+> sudo -u tond /usr/local/opt/ton/bin/validator-engine --global-config /var/db/ton/newton-testnet-node/etc/global_config.json --db /var/db/ton/newton-testnet-node/db --logname  /var/db/ton/newton-testnet-node/log/node.log
 
 If all went well then this command should stay in foreground as long as you do not kill it. Check out the log files for information on what is going on.
 
@@ -64,7 +64,7 @@ It is at this step that I advise you to automate start/stop of the node as a sys
 ### Sidenote: Log files
 It is important to understand architecture of *validator-engine* in order to understand log file structure: *validator-engine* acts as a **main process** that takes the command arguments, loads configs and then spawns **children processes / threads** that do actual job. Each process / thread writes into *it's own log file*.
 
-The log file you specify with *-l* parameter points to log file used by **main process**, each **thread** writes it's own log file that has `.threadN.log` appended to name of main log file. Where N is number of the thread.
+The log file you specify with `--logname` parameter points to log file used by **main process**, each **thread** writes it's own log file that has `.threadN.log` appended to name of main log file. Where N is number of the thread.
 
 As a result, during initiation two logs will be made:
 
