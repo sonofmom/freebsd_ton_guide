@@ -1,6 +1,7 @@
 # FreeBSD Telegram Open Network dht server configuration guide
 ## What is DHT Server
-**[TODO]**
+DHT stands for [Distributed Hash Table](https://en.wikipedia.org/wiki/Distributed_hash_table).
+**[TODO]**: Describe why TON needs it... 
 
 ## Configuration and initialization of TON dht server
 This guide outlines process of conifguration and initialization of dht server for Telegram Open Network based blockchain networks on FreeBSD host, based on example of [Newton Blockchain](https://github.com/newton-blockchain) Testnet.
