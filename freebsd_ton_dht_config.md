@@ -64,14 +64,17 @@ If all went well then this command should stay in foreground as long as you do n
 It is at this step that I advise you to automate start/stop of the dht server as a system service, I strongly advise to utilize _daemontools_ do do that, please consult Chapter 3 of [FreeBSD Telegram Open Network installation guide](./freebsd_ton_installation.md).
 
 ### Sidenote: Log files
-It is important to understand architecture of *dht-server* in order to understand log file structure: *dht-server* acts as a **main process** that takes the command arguments, loads configs and then spawns **children processes / threads** that do actual job. Each process / thread writes into *it's own log file*.
+*dht-server* produces logs in same format as *validator-engine*, please consult [FreeBSD Telegram Open Network full node configuration guide](./freebsd_ton_fullnode_config.md) on how the logs are named.
 
-The log file you specify with *--logname* parameter points to log file used by **main process**, each **thread** writes it's own log file that has `.threadN.log` appended to name of main log file. Where N is number of the thread.
+## Step 4: Making signed network record
+If you want to define your DHT server in network configuration file you must create a *signed dht record*.
 
-As a result, during initiation two logs will be made:
+To do so, I have added a helpful [mkdht.sh](./support/mkdht.sh) script. This script takes three arguments:
+* *db directory* of your dht server, this is same path you specify with `--db` parameter for dht-server
+* public *ip address* of your dht server ***in decimal notation!*** you can read it out in `/var/db/ton/newton-testnet-node/db/config.json`
+* port number of your dht server
 
-* `/var/db/ton/newton-testnet-dht/log/init.log` that ideally should be empty
-* `/var/db/ton/newton-testnet-dht/log/init.log.thread1.log` that will contain information from the thread that actually made the *local configuration*
+Example:
+> sudo -u tond ./mkdht.sh /var/db/ton/newton-testnet-dht/db 1243007544 22222
 
-## Step 4: Controling your dht server
-**TODO**
+If all went ok you should be presented with JSON structure identical to other dht records in network config. Inject it into the config or send to the people wo can do so.
