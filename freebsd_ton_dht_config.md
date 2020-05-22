@@ -5,7 +5,7 @@
 ## Configuration and initialization of TON dht server
 This guide outlines process of conifguration and initialization of dht server for Telegram Open Network based blockchain networks on FreeBSD host, based on example of [Newton Blockchain](https://github.com/newton-blockchain) Testnet.
 
-Following this guide you should be able to spawn nodes for other networks as well, even on the same machine / virtual host if you desire.
+Following this guide you should be able to spawn dht servers for other networks as well, even on the same machine / virtual host if you desire.
 
 ## Prerequesites / assumptions
 Completion of chapter 1 of [FreeBSD Telegram Open Network installation guide](./freebsd_ton_installation.md) and as a result:
@@ -18,7 +18,7 @@ We also assume that you chose to create a dedicated user called *tond* and this 
 
 
 ## Chapter 1: Create work directory for your server
-If you run more then one server on one host you should place have a separate work directory for each node under global ton data directory. In our example server work directory will be named: `/var/db/ton/newton-testnet-node`. 
+If you run more then one server on one host you should place have a separate work directory for each node under global ton data directory. In our example server work directory will be named: `/var/db/ton/newton-testnet-dht`. 
 
 > sudo -u tond mkdir -p /var/db/ton/newton-testnet-dht/{etc,db,log}\
 sudo -u tond chmod -R 700 /var/db/ton/newton-testnet-dht
