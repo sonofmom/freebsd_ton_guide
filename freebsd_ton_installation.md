@@ -143,29 +143,37 @@ Please see chapter 2a on how to do that.
 
 ## Step b: Enable dht server control via daemontools
 ### Create service directory
-> sudo mkdir /var/service/newton-testnet-dht
+> sudo mkdir /var/service/.newton-testnet-dht
+
+Note that we are prefixing the directory name with a dot, this makes service directory invisible to svscan.
 
 ### Disable auto-start of the service
-> sudo touch /var/service/newton-testnet-dht/down
+> sudo touch /var/service/.newton-testnet-dht/down
 
-### Create run script
-Download the [run](./support/service/newton-testnet-dht/run) file and place it into `/var/service/newton-testnet-dht` directory. It should be executable.
+### Fetch and edit run script
+Download the [run](./support/service/newton-testnet-dht/run) file into `/var/service/newton-testnet-dht` directory and make it executable.
+
+> sudo fetch https://raw.githubusercontent.com/sonofmom/freebsd_ton_guide/master/support/service/newton-testnet-dht/run -o /var/service/.newton-testnet-dht/run\
+sudo chmod 755 /var/service/.newton-testnet-dht/run
 
 **Make sure you review the file content and adjust the variables to your dht server configuration.**
 
 ### Test run script
-> sudo /var/service/newton-testnet-dht/run
+> sudo -u tond /var/service/.newton-testnet-dht/run
 
 If all is correct then the dht server will start as foreground process. If not, please review your instance *log files*
 
-### Restart svscan
-> sudo service svscan restart
+### Make service visible to svscan
+> sudo mv /var/service/.newton-testnet-dht /var/service/newton-testnet-dht
 
 ### Test if service can be started using svscan
-> sudo svc -u /var/service/newton-testnet-dht\
-sudo svstat /var/service/newton-testnet-dht
+> sudo svc -u /var/service/newton-testnet-dht
 
-If all went OK then you should see following message: `/var/service/newton-testnet-dht: up (pid 65713) 1 seconds, normally down` where pid and seconds will be different on your system of course.
+Now wait 2-3 seconds and issue 
+
+> sudo svstat /var/service/newton-testnet-dht
+
+If all went OK then you should see following message: `/var/service/newton-testnet-dht: up (pid 65713) 3 seconds, normally down` where pid and seconds will be different on your system of course.
 
 ### Enable automatic start of service
 > sudo rm /var/service/newton-testnet-dht/down
