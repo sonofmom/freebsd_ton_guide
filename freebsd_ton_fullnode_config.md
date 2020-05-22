@@ -59,7 +59,7 @@ Essentially, this is it: your machine can operate as a network node, you can try
 If all went well then this command should stay in foreground as long as you do not kill it. Check out the log files for information on what is going on.
 
 #### Automate the node
-It is at this step that I advise you to automate start/stop of the node as a system service, I strongly advise to utilize _daemontools_ do do that, please consult Chapter 2 of [FreeBSD Telegram Open Network installation guide](./freebsd_ton_installation.md).
+It is at this step that I advise you to automate start/stop of the node as a system service, I strongly advise to utilize _daemontools_ do do that, please consult [Chapter 2 of FreeBSD Telegram Open Network installation guide](./freebsd_ton_installation.md#chapter-2-running-node).
 
 ### Sidenote: Log files
 It is important to understand architecture of *validator-engine* in order to understand log file structure: *validator-engine* acts as a **main process** that takes the command arguments, loads configs and then spawns **children processes / threads** that do actual job. Each process / thread writes into *it's own log file*.

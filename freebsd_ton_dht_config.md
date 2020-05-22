@@ -61,10 +61,10 @@ Essentially, this is it: your machine can operate as a network node, you can try
 If all went well then this command should stay in foreground as long as you do not kill it. Check out the log files for information on what is going on.
 
 #### Automate the dht server
-It is at this step that I advise you to automate start/stop of the dht server as a system service, I strongly advise to utilize _daemontools_ do do that, please consult Chapter 3 of [FreeBSD Telegram Open Network installation guide](./freebsd_ton_installation.md).
+It is at this step that I advise you to automate start/stop of the dht server as a system service, I strongly advise to utilize _daemontools_ do do that, please consult [Chapter 3 of FreeBSD Telegram Open Network installation guide](./freebsd_ton_installation.md#chapter-3-running-dht-server).
 
 ### Sidenote: Log files
-*dht-server* produces logs in same format as *validator-engine*, please consult [FreeBSD Telegram Open Network full node configuration guide](./freebsd_ton_fullnode_config.md) on how the logs are named.
+*dht-server* produces logs in same format as *validator-engine*, please consult [FreeBSD Telegram Open Network full node configuration guide](./freebsd_ton_fullnode_config.md#sidenote-log-files) on how the logs are named.
 
 ## Step 4: Making signed network record
 If you want to define your DHT server in network configuration file you must create a *signed dht record*.
