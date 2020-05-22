@@ -101,7 +101,7 @@ sudo service svscan start
 > sudo touch /var/service/newton-testnet-node/down
 
 ### Create run script
-Download the [run](./support/service/newton-testnet-node/run) file and place it into */var/service/newton-testnet-node* directory. It should be executable.
+Download the [run](./support/service/newton-testnet-node/run) file and place it into `/var/service/newton-testnet-node` directory. It should be executable.
 
 **Make sure you review the file content and adjust the variables to your node configuration.**
 
@@ -122,15 +122,56 @@ If all went OK then you should see following message: `/var/service/newton-testn
 ### Enable automatic start of service
 > sudo rm /var/service/newton-testnet-node/down
 
-## Step c: Enable dht server control via daemontools
-This is optional step for anyone who wishes to run dht server.
+# Chapter 3: Running dht server
+This chapter outlines how to run the dht server. You must have a working dht server configuration to proceed. Please consult chapters 1 to 3 of [FreeBSD Telegram Open Network dht server configuration guide](./freebsd_ton_dht_config.md) on how to do that.
 
-**[TODO]**
+## Prerequesites / assumptions
+1. existance of node *global configuration* `/var/db/ton/newton-testnet-dht/etc/global_config.json`
+2. existance of node *local configuration* `/var/db/ton/newton-testnet-dht/db/config.json`
+3. ability to start the *dht-server* with node configuration
+4. outgoing UDP access to internet
+5. incoming UDP access from internet to the port specified during dht server configuration
 
+We also assume that you chose to create a dedicated user *tond* and initialized the configuration using that user.
 
+### Software / OS
+* FreeBSD 12.x host (or jail)
+* Base distribution
+
+## Step a: Install daemontools
+Please see chapter 2a on how to do that.
+
+## Step b: Enable dht server control via daemontools
+### Create service directory
+> sudo mkdir /var/service/newton-testnet-dht
+
+### Disable auto-start of the service
+> sudo touch /var/service/newton-testnet-dht/down
+
+### Create run script
+Download the [run](./support/service/newton-testnet-dht/run) file and place it into `/var/service/newton-testnet-dht` directory. It should be executable.
+
+**Make sure you review the file content and adjust the variables to your dht server configuration.**
+
+### Test run script
+> sudo /var/service/newton-testnet-dht/run
+
+If all is correct then the dht server will start as foreground process. If not, please review your instance *log files*
+
+### Restart svscan
+> sudo service svscan restart
+
+### Test if service can be started using svscan
+> sudo svc -u /var/service/newton-testnet-dht\
+sudo svstat /var/service/newton-testnet-dht
+
+If all went OK then you should see following message: `/var/service/newton-testnet-dht: up (pid 65713) 1 seconds, normally down` where pid and seconds will be different on your system of course.
+
+### Enable automatic start of service
+> sudo rm /var/service/newton-testnet-dht/down
 
 ## Congratulations
-By this step you should have a running TON Node.
+By this step you should have a running TON Node and / or dht server.
 
 But this is just a beginning, you need to configure quite a lot, please see
 * [FreeBSD Telegram Open Network full node configuration guide](./freebsd_ton_fullnode_config.md): Describes process of configuring TON network full node.

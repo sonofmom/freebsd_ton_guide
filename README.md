@@ -10,4 +10,5 @@ There are few guides and ready solutions for TON Blockchain nodes but most of th
 * [FreeBSD Telegram Open Network installation guide](./freebsd_ton_installation.md): Describes process of building, installing and running TON binaries on FreeBSD systems.
 * [FreeBSD Telegram Open Network full node configuration guide](./freebsd_ton_fullnode_config.md): Describes process of configuring TON network full node.
 * [FreeBSD Telegram Open Network validator node configuration guide](./freebsd_ton_validator_config.md): Describes process of configuring TON network full node.
+* [FreeBSD Telegram Open Network dht server configuration guide](./freebsd_ton_dht_config.md): Describes process of configuring TON network dht server.
 * [FreeBSD Telegram Open Network FAQ](./freebsd_ton_faq.md): FAQ on TON for FreeBSD (and other systems).
