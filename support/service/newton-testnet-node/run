@@ -8,7 +8,7 @@ VE_BIN="/usr/local/opt/ton/bin/validator-engine"
 SE_BIN="/usr/local/bin/setuidgid"
 
 # Work directory
-WORK_DIR="/var/db/ton/newton-testnet"
+WORK_DIR="/var/db/ton/newton-testnet-node"
 
 # User account to run node under
 USER="tond"

@@ -68,8 +68,8 @@ sudo chmod 750 /var/db/ton
 This chapter outlines how to run the actual node. You must have a working node configuration to proceed. Please consult chapters 1 to 3 of [FreeBSD Telegram Open Network full node configuration guide](./freebsd_ton_fullnode_config.md) on how to do that.
 
 ## Prerequesites / assumptions
-1. existance of node *global configuration* `/var/db/ton/newton-testnet/etc/global_config.json`
-2. existance of node *local configuration* `/var/db/ton/newton-testnet/db/config.json`
+1. existance of node *global configuration* `/var/db/ton/newton-testnet-node/etc/global_config.json`
+2. existance of node *local configuration* `/var/db/ton/newton-testnet-node/db/config.json`
 3. ability to start the *validator-engine* with node configuration
 4. outgoing UDP access to internet
 5. incoming UDP access from internet to the port specified during node configuration
@@ -101,7 +101,7 @@ sudo service svscan start
 > sudo touch /var/service/newton-testnet-node/down
 
 ### Create run script
-Download the [run](./support/supervise/run) file and place it into */var/service/newton-testnet-node* directory. It should be executable.
+Download the [run](./support/service/newton-testnet-node/run) file and place it into */var/service/newton-testnet-node* directory. It should be executable.
 
 **Make sure you review the file content and adjust the variables to your node configuration.**
 
@@ -121,6 +121,13 @@ If all went OK then you should see following message: `/var/service/newton-testn
 
 ### Enable automatic start of service
 > sudo rm /var/service/newton-testnet-node/down
+
+## Step c: Enable dht server control via daemontools
+This is optional step for anyone who wishes to run dht server.
+
+**[TODO]**
+
+
 
 ## Congratulations
 By this step you should have a running TON Node.
