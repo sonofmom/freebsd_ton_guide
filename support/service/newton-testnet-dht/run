@@ -20,4 +20,4 @@ GLOBAL_CONFIG=$WORK_DIR/etc/global_config.json
 DB_DIR=$WORK_DIR/db
 LOG_FILE=$WORK_DIR/log/server.log
 
-exec $DH_BIN $USER $VE_BIN --global-config $GLOBAL_CONFIG --db $DB_DIR --logname $LOG_FILE --threads $THREADS
+exec $SE_BIN $USER $DH_BIN --global-config $GLOBAL_CONFIG --db $DB_DIR --logname $LOG_FILE --threads $THREADS
