@@ -56,12 +56,12 @@ Essentially, this is it: your machine can operate as a network node, you can try
 
 > sudo -u tond /usr/local/opt/ton/bin/validator-engine --global-config /var/db/ton/newton-testnet-node/etc/global_config.json --db /var/db/ton/newton-testnet-node/db --logname  /var/db/ton/newton-testnet-node/log/node.log
 
-If all went well then this command should stay in foreground as long as you do not kill it. Check out the log files for information on what is going on.
+If all went well then this command should stay in foreground as long as you do not kill it. Check out the *log files* for information on what is going on.
 
 #### Automate the node
 It is at this step that I advise you to automate start/stop of the node as a system service, I strongly advise to utilize _daemontools_ do do that, please consult [Chapter 2 of FreeBSD Telegram Open Network installation guide](./freebsd_ton_installation.md#chapter-2-running-node).
 
-### Sidenote: Log files
+## Chapter 4: Node log files
 It is important to understand architecture of *validator-engine* in order to understand log file structure: *validator-engine* acts as a **main process** that takes the command arguments, loads configs and then spawns **children processes / threads** that do actual job. Each process / thread writes into *it's own log file*.
 
 The log file you specify with `--logname` parameter points to log file used by **main process**, each **thread** writes it's own log file that has `.threadN.log` appended to name of main log file. Where N is number of the thread.
