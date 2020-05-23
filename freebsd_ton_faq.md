@@ -1,13 +1,13 @@
 # FreeBSD Telegram Open Network FAQ
 
 # Common node error messages
-###[Error : 651 : no nodes]
+### [Error : 651 : no nodes]
 This happens if your new node cannot connect to any DHT server defined in *global configuration* of your network. It basically means that either your node has no access to internet or the network you are trying to connect to experiences problems.
 
-###[Error : 651 : state not found]
+### [Error : 651 : state not found]
 **[TODO]**
 
-###[Error : 652 : net error:  adnl query timeout]
+### [Error : 652 : net error:  adnl query timeout]
 Very common error to see in logs, **[TODO]**: describe what exactly happens here.
 
 # System Requirements
