@@ -1,5 +1,5 @@
 #!/bin/sh
-# This script will generate JSON strucutre useful as TON configuration DHT record.
+# This script will generate JSON structure useful as TON configuration DHT record.
 #
 # Required params:
 # DHT Node DB Directory 

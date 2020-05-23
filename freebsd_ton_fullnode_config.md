@@ -136,33 +136,34 @@ In this step we will tell our node that it should start cli listener, to do so w
 
 ***Attention:*** Please backup your local configuration file before changing it.
 
-We need to insert a new CLI server definition into *control* block of *local configuration* file. The definition looks as following json structure:
+You need to replace `control` section that is by default empty and looks like this:
 ```json
+control" : [
+],
+```
+
+With this:
+```json
+"control" : [
   { "id" : "##BASE64_SERVER_KEY##",
-    "port" : ##CONSOLE_PORT##,
+    "port" : ##CONTROL_PORT##,
     "allowed" : [
       { "id" : "##BASE64_CLIENT_KEY##",
         "permissions" : 15
       }
     ]
   }
-```
-
-***Attention***: Please make sure to insert proper ***BASE64***(!!) public key representations into the structure above. Also set a port on which to listen for cli connections.
-
-Open the file `/var/db/ton/newton-testnet-node/db/config.json` in editor and insert this definition into *control* block, here is the final result with ***dummy example values which will be different in your case***:
-```json
-"control" : [
-  { "id" : "tnEgKFgGj/afHDEzAJR3patE1ksJ7Ocowy6TLqm/aSA=",
-    "port" : 12200,
-    "allowed" : [
-      { "id" : "KRP3bJdzUb8/sZvUun5LYerlIe4ET5tVQXFdW8iQECg=",
-        "permissions" : 15
-      }
-    ]
-  }
 ],
 ```
+***Attention***: Please make sure to insert proper ***BASE64***(!!) public key representations into the structure above. Also set a port on which to listen for cli connections.
+
+You can also use script [mkcontrol.sh](./support/mkcontrol.sh). This script takes three arguments:
+* *HEX_SERVER_KEY* because hex is shell safe....
+* *HEX_CLIENT_KEY* because hex is shell safe....
+* *CONTROL_PORT*
+
+And will return a proper JSON structure.
+
 #### Test local configuration file JSON syntax
 Using python `json.tool` module we can validate if our json file is valid, run:
 > sudo python -m json.tool < /var/db/ton/newton-testnet-node/db/config.json
