@@ -108,10 +108,10 @@ Change into your home directory and execute:
 Record the *Hex* and *Base64* representations of generated public key. please see [Generation of PKI keypairs for TON](#generation-of-pki-keypairs-for-ton) for more info.
 
 Install the server *private key file* into *keyring* storage of the node instance:
-> sudo mv newton-testnet-node-server /var/db/ton/newton-testnet-node/db/keyring/***Hex_public_key***\
-sudo chown tond:ton /var/db/ton/newton-testnet-node/db/keyring/***Hex_public_key***
+> sudo mv newton-testnet-node-server /var/db/ton/newton-testnet-node/db/keyring/***##HEX_SERVER_KEY##***\
+sudo chown tond:ton /var/db/ton/newton-testnet-node/db/keyring/***##HEX_SERVER_KEY##***
 
-***Please make sure to insert proper Hex public key representation into the command above.***
+***Attention***: Please make sure to insert proper ***Hex*** public key representation into the command above.
 
 Server *public key file* `newton-testnet-node-server.pub` will be used by *validator-engine-console* and hense should be placed on where it is accesible by *validator-engine-console* (possibly other machines).
 
