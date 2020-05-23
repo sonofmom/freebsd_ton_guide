@@ -96,12 +96,14 @@ We also assume that you chose to create a dedicated user *tond* and initialized 
 CLI functionality is client-server architecture where role of the client is played by binary *validator-engine-console* and server is the same *validator-engine* process that runs the node.
 
 #### Security
-Security is based on PKI architecture by utilizing private/public key pairs for both server and clients. Thus, the absolute minimum configuration requires generation of two keypairs: one for the server and another for the client.
+Security is based on PKI architecture by utilizing private/public key pairs for both server and clients. Thus, the absolute minimum configuration requires two keypairs: server and client.
 
 ### Step 1: generation and installation of PKI keypairs
 Please see [Generation of PKI keypairs for TON](#generation-of-pki-keypairs-for-ton) for general information on how keypairs are generated.
 
 #### Server
+Each server should have it's own keypair, thus this step is needed for every server instance.
+
 Change into your home directory and execute:
 > /usr/local/opt/ton/bin/generate-random-id --mode keys --name newton-testnet-node-server
 
@@ -111,17 +113,19 @@ Install the server *private key file* into *keyring* storage of the node instanc
 > sudo mv newton-testnet-node-server /var/db/ton/newton-testnet-node/db/keyring/***##HEX_SERVER_KEY##***\
 sudo chown tond:ton /var/db/ton/newton-testnet-node/db/keyring/***##HEX_SERVER_KEY##***
 
-***Attention***: Please make sure to insert proper ***Hex*** public key representation into the command above.
+***Attention***: Please make sure to insert proper ***HEX***(!!) public key representation into the command above.
 
 Server *public key file* `newton-testnet-node-server.pub` will be used by *validator-engine-console* and hense should be placed on where it is accesible by *validator-engine-console* (possibly other machines).
 
 #### Client
+This step should be done only if you do not have a client keypair already. You can reuse same client keypair on different servers, this is identical to ssh keys.
+
 Change into your home directory and execute:
-> /usr/local/opt/ton/bin/generate-random-id --mode keys --name newton-testnet-node-client
+> /usr/local/opt/ton/bin/generate-random-id --mode keys --name ton-client
 
 Record the *Hex* and *Base64* representations of generated public key. please see [Generation of PKI keypairs for TON](#acme) for more info.
 
-Client *private key file* `newton-testnet-node-client` will be used by *validator-engine-console* and hense should be placed on where it is accesible by *validator-engine-console* (possibly other machines).
+Client *private key file* `ton-client` will be used by *validator-engine-console* and hense should be placed on where it is accesible by *validator-engine-console* (possibly other machines).
 
 ### Step 2: configuration of CLI server in the node
 #### Stop the node

@@ -1,4 +1,5 @@
 # FreeBSD Telegram Open Network FAQ
+Attention: This section is big chaos and WIP more then anything else...
 
 # Common node error messages
 ### [Error : 651 : no nodes]
@@ -9,6 +10,23 @@ This happens if your new node cannot connect to any DHT server defined in *globa
 
 ### [Error : 652 : net error:  adnl query timeout]
 Very common error to see in logs, **[TODO]**: describe what exactly happens here.
+
+# Useful commands
+### Convert key HEX representation to Base64
+> echo "##HEX##" | xxd -r -p | openssl base64
+
+Example:
+> echo "0DF90396788B6CEC38585A980DD346A0FD5122710338B0B014A94059D0B08CB6" | xxd -r -p | openssl base64
+
+Result: `DfkDlniLbOw4WFqYDdNGoP1RInEDOLCwFKlAWdCwjLY=`
+
+### Convert key base64  representation to HEX
+> echo "##BASE64##" | openssl base64 -d | xxd -p -u -c 34
+
+Example:
+> echo "DfkDlniLbOw4WFqYDdNGoP1RInEDOLCwFKlAWdCwjLY=" | openssl base64 -d | xxd -p -u -c 34
+
+Result: `0DF90396788B6CEC38585A980DD346A0FD5122710338B0B014A94059D0B08CB6`
 
 # System Requirements
 ## Hardware
