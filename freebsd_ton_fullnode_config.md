@@ -99,13 +99,13 @@ CLI functionality is client-server architecture where role of the client is play
 Security is based on PKI architecture by utilizing private/public key pairs for both server and clients. Thus, the absolute minimum configuration requires generation of two keypairs: one for the server and another for the client.
 
 ### Step 1: generation and installation of PKI keypairs
-Please see [Generation of PKI keypairs for TON](#acme) for general information on how keypairs are generated.
+Please see [Generation of PKI keypairs for TON](#generation-of-pki-keypairs-for-ton) for general information on how keypairs are generated.
 
 #### Server
 Change into your home directory and execute:
 > /usr/local/opt/ton/bin/generate-random-id --mode keys --name newton-testnet-node-server
 
-Record the *Hex* and *Base64* representations of generated public key. please see [Generation of PKI keypairs for TON](#acme) for more info.
+Record the *Hex* and *Base64* representations of generated public key. please see [Generation of PKI keypairs for TON](#generation-of-pki-keypairs-for-ton) for more info.
 
 Install the server *private key file* into *keyring* storage of the node instance:
 > sudo mv newton-testnet-node-server /var/db/ton/newton-testnet-node/db/keyring/***Hex_public_key***\
@@ -172,7 +172,10 @@ PKI keypars for ton are generated using `/usr/local/opt/ton/bin/generate-random-
 Change into your home directory and execute:
 > /usr/local/opt/ton/bin/generate-random-id --mode keys --name acme
 
-This comand will output a single line with two strings, it will look identical to: `F20F63AFEF12926D0B0A023C8AA8217BDFF731E60EEE236D3D21C535E7F88F9C 8g9jr+8Skm0LCgI8iqghe9/3MeYO7iNtPSHFNef4j5w=` but of course your strings will be different.
+This comand will output a single line with two strings, it will look something like:
+> `F20F63AFEF12926D0B0A023C8AA8217BDFF731E60EEE236D3D21C535E7F88F9C 8g9jr+8Skm0LCgI8iqghe9/3MeYO7iNtPSHFNef4j5w=` 
+
+but of course your strings will be different.
 
 The first string `F20F63AFEF12926D0B0A023C8AA8217BDFF731E60EEE236D3D21C535E7F88F9C` is *Hex public key representation*, second string `8g9jr+8Skm0LCgI8iqghe9/3MeYO7iNtPSHFNef4j5w=` is *Base64 public key representation*. **Please record this information as we will need it later**
 
