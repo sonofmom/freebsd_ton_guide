@@ -59,7 +59,7 @@ Essentially, this is it: your machine can operate as a network node, you can try
 If all went well then this command should stay in foreground as long as you do not kill it. 
 
 #### But does it work?
-Well, if process stays in foreground and does not exit immediately then this is already good news. You really need to check [log files](#chapter-4-node-log-files) to see what is going on. There can be many messages there, please see [Common node errors](./freebsd_ton_faq.md#common-node-error-messages) section of FAQ for some of the most common ones.
+Well, if process stays in foreground and does not exit immediately then this is already good news. You really need to check [log files](#chapter-4-node-log-files) to see what is going on. There can be many messages, please see [common node errors](./freebsd_ton_faq.md#common-node-error-messages) section of FAQ for some of the most common ones.
 
 Depending on the state of the net you are trying to connect to it can take quite a while to even find state, let alone sync. It can easily take **days** for a full node to completely sync even on fastest internet line with very quick hardware.
 
@@ -69,7 +69,7 @@ Here are some other indications (besides logs) that your node does something:
 * *database directory* (`/var/db/ton/newton-testnet-node/db` in our case) is growing.
 
 ### Automate the node
-It is at this step that I advise you to automate start/stop of the node as a system service, I strongly advise to utilize _daemontools_ do do that, please consult [Chapter 2 of FreeBSD Telegram Open Network installation guide](./freebsd_ton_installation.md#chapter-2-running-node).
+It is at this step that I advise you to automate start/stop of the node as a system service, I strongly advise to utilize *daemontools* do do that, please consult [Chapter 2 of FreeBSD Telegram Open Network installation guide](./freebsd_ton_installation.md#chapter-2-running-node).
 
 ## Chapter 4: Node log files
 It is important to understand architecture of *validator-engine* in order to understand log file structure: *validator-engine* acts as a **main process** that takes the command arguments, loads configs and then spawns **children processes / threads** that do actual job. Each process / thread writes into *it's own log file*.
@@ -81,9 +81,101 @@ As a result, during initiation two logs will be made:
 * `/var/db/ton/newton-testnet-node/log/init.log` that ideally should be empty
 * `/var/db/ton/newton-testnet-node/log/init.log.thread1.log` that will contain information from the thread that actually made the *local configuration*
 
-## Step 4: Controling your node
-Having a working node is great success but it is of not much use if you cannot control / access it. In order to do this we need to setup remote control CLI access.
+## Chapter 5: Configuring node cli client-server
+### Why CLI client
+**[TODO]** Describe what the client is used for.
+
+### Prerequesites / assumptions
+1. Completion of chapters 1-3 of this guide with the result of working node.
+2. Ability to [control the node](./freebsd_ton_installation.md#chapter-2-running-node) using *daemontools* 
+
+We also assume that you chose to create a dedicated user *tond* and initialized the configuration using that user.
+
+### Architecture
+#### Transport
+CLI functionality is client-server architecture where role of the client is played by binary *validator-engine-console* and server is the same *validator-engine* process that runs the node.
+
+#### Security
+Security is based on PKI architecture by utilizing private/public key pairs for both server and clients. Thus, the absolute minimum configuration requires generation of two keypairs: one for the server and another for the client.
+
+### Step 1: generation and installation of PKI keypairs
+Please see [Generation of PKI keypairs for TON](#acme) for general information on how keypairs are generated.
+
+#### Server
+Change into your home directory and execute:
+> /usr/local/opt/ton/bin/generate-random-id --mode keys --name newton-testnet-node-server
+
+Record the *Hex* and *Base64* representations of generated public key. please see [Generation of PKI keypairs for TON](#acme) for more info.
+
+Install the server *private key file* into *keyring* storage of the node instance:
+> sudo mv newton-testnet-node-server /var/db/ton/newton-testnet-node/db/keyring/***Hex_public_key***\
+sudo chown tond:ton /var/db/ton/newton-testnet-node/db/keyring/***Hex_public_key***
+
+***Please make sure to insert proper Hex public key representation into the command above.***
+
+Server *public key file* `newton-testnet-node-server.pub` will be used by *validator-engine-console* and hense should be placed on where it is accesible by *validator-engine-console* (possibly other machines).
+
+#### Client
+Change into your home directory and execute:
+> /usr/local/opt/ton/bin/generate-random-id --mode keys --name newton-testnet-node-client
+
+Record the *Hex* and *Base64* representations of generated public key. please see [Generation of PKI keypairs for TON](#acme) for more info.
+
+Client *private key file* `newton-testnet-node-client` will be used by *validator-engine-console* and hense should be placed on where it is accesible by *validator-engine-console* (possibly other machines).
+
+### Step 2: configuration of CLI server in the node
+In this step we will tell our node that it should start cli listener, to do so we need to edit *local configuration* file `/var/db/ton/newton-testnet-node/db/config.json` and restart the node.
+
+***Attention:*** Please backup your local configuration file before changing it.
+
+We need to insert a new CLI server definition into *control* block of *local configuration* file. The definition looks as following json structure:
+`
+  { "id" : "***Base64 Server Public Key***",
+    "port" : ***CLI Console Port***,
+    "allowed" : [
+      { "id" : "***Base64 Client Public Key***",
+        "permissions" : 15
+      }
+    ]
+  }
+`
+
+***Attention***: Please make sure to insert proper ***Base64***(!!) public key representations into the structure above. Also set a port on which to listen for cli connections.
+
+Open the file `/var/db/ton/newton-testnet-node/db/config.json` in editor and insert this definition into *control* block, here is the final result with ***dummy example values which will be different in your case***:
+`
+  { "id" : "tnEgKFgGj/afHDEzAJR3patE1ksJ7Ocowy6TLqm/aSA=",
+    "port" : 12200,
+    "allowed" : [
+      { "id" : "KRP3bJdzUb8/sZvUun5LYerlIe4ET5tVQXFdW8iQECg=",
+        "permissions" : 15
+      }
+    ]
+  }
+`
+## Chapter 6: Configuring liteserver and client
 **TODO**
 
-## Step 5: Liteserver and client
+## Chapter 7: mytonctl
 **TODO**
+
+# Generation of PKI keypairs for TON 
+PKI keypars for ton are generated using `/usr/local/opt/ton/bin/generate-random-id` executable, each generation results in two files and two strings:
+* *Private key file* and *Public key file*
+* *Hex public key representation* and *Base64 public key representation* those strings contain the same information as *Public key file*, just in a different encoding.
+
+`/usr/local/opt/ton/bin/generate-random-id` takes two arguments: 
+* `--mode keys` that tells that we wish to generate a new PKI keypair.
+* `--name` that tells under which name to save the output. This can be any string.
+
+## Generate the key
+Change into your home directory and execute:
+> /usr/local/opt/ton/bin/generate-random-id --mode keys --name acme
+
+This comand will output a single line with two strings, it will look identical to: `F20F63AFEF12926D0B0A023C8AA8217BDFF731E60EEE236D3D21C535E7F88F9C 8g9jr+8Skm0LCgI8iqghe9/3MeYO7iNtPSHFNef4j5w=` but of course your strings will be different.
+
+The first string `F20F63AFEF12926D0B0A023C8AA8217BDFF731E60EEE236D3D21C535E7F88F9C` is *Hex public key representation*, second string `8g9jr+8Skm0LCgI8iqghe9/3MeYO7iNtPSHFNef4j5w=` is *Base64 public key representation*. **Please record this information as we will need it later**
+
+You will also find two files in your directory: `acme` which is a *Private key file* and `acme.pub` which is a *Public key file*.
+
+**[TODO]**: Can Base64 and Hex representations be recreated from public key file? How?
