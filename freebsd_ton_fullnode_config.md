@@ -142,17 +142,17 @@ We need to insert a new CLI server definition into *control* block of *local con
 
 ***Attention***: Please make sure to insert proper ***Base64***(!!) public key representations into the structure above. Also set a port on which to listen for cli connections.
 
-Open the file `/var/db/ton/newton-testnet-node/db/config.json` in editor and insert this definition into *control* block, here is the final result with ***dummy example values which will be different in your case***:\
-`\
-  { "id" : "tnEgKFgGj/afHDEzAJR3patE1ksJ7Ocowy6TLqm/aSA=",\
-    "port" : 12200,\
-    "allowed" : [\
-      { "id" : "KRP3bJdzUb8/sZvUun5LYerlIe4ET5tVQXFdW8iQECg=",\
-        "permissions" : 15\
-      }\
-    ]\
-  }\
-`
+Open the file `/var/db/ton/newton-testnet-node/db/config.json` in editor and insert this definition into *control* block, here is the final result with ***dummy example values which will be different in your case***:
+```json
+  { "id" : "tnEgKFgGj/afHDEzAJR3patE1ksJ7Ocowy6TLqm/aSA=",
+    "port" : 12200,
+    "allowed" : [
+      { "id" : "KRP3bJdzUb8/sZvUun5LYerlIe4ET5tVQXFdW8iQECg=",
+        "permissions" : 15
+      }
+    ]
+  }
+```
 ## Chapter 6: Configuring liteserver and client
 **TODO**
 
