@@ -129,21 +129,22 @@ In this step we will tell our node that it should start cli listener, to do so w
 ***Attention:*** Please backup your local configuration file before changing it.
 
 We need to insert a new CLI server definition into *control* block of *local configuration* file. The definition looks as following json structure:
-`
-  { "id" : "***Base64 Server Public Key***",
-    "port" : ***CLI Console Port***,
+```json
+  { "id" : "##BASE64_SERVER_KEY##",
+    "port" : ##CONSOLE_PORT##,
     "allowed" : [
-      { "id" : "***Base64 Client Public Key***",
+      { "id" : "##BASE64_CLIENT_KEY##",
         "permissions" : 15
       }
     ]
   }
-`
+```
 
-***Attention***: Please make sure to insert proper ***Base64***(!!) public key representations into the structure above. Also set a port on which to listen for cli connections.
+***Attention***: Please make sure to insert proper ***BASE64***(!!) public key representations into the structure above. Also set a port on which to listen for cli connections.
 
 Open the file `/var/db/ton/newton-testnet-node/db/config.json` in editor and insert this definition into *control* block, here is the final result with ***dummy example values which will be different in your case***:
 ```json
+"control" : [
   { "id" : "tnEgKFgGj/afHDEzAJR3patE1ksJ7Ocowy6TLqm/aSA=",
     "port" : 12200,
     "allowed" : [
@@ -152,6 +153,7 @@ Open the file `/var/db/ton/newton-testnet-node/db/config.json` in editor and ins
       }
     ]
   }
+],
 ```
 ## Chapter 6: Configuring liteserver and client
 **TODO**
