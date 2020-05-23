@@ -59,7 +59,7 @@ Essentially, this is it: your machine can operate as a network node, you can try
 If all went well then this command should stay in foreground as long as you do not kill it. 
 
 #### But does it work?
-Well, if process stays in foreground and does not exist then this is already good news. You really need to check *log files* to see what is going on. There can be many messages there, please see [Common node errors](./freebsd_ton_faq.md#common-node-error-messages) section of FAQ for some of the most common ones.
+Well, if process stays in foreground and does not exit immediately then this is already good news. You really need to check [log files](#chapter-4-node-log-files) to see what is going on. There can be many messages there, please see [Common node errors](./freebsd_ton_faq.md#common-node-error-messages) section of FAQ for some of the most common ones.
 
 Depending on the state of the net you are trying to connect to it can take quite a while to even find state, let alone sync. It can easily take **days** for a full node to completely sync even on fastest internet line with very quick hardware.
 
