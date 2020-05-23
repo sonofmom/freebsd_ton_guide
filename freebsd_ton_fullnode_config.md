@@ -124,7 +124,11 @@ Record the *Hex* and *Base64* representations of generated public key. please se
 Client *private key file* `newton-testnet-node-client` will be used by *validator-engine-console* and hense should be placed on where it is accesible by *validator-engine-console* (possibly other machines).
 
 ### Step 2: configuration of CLI server in the node
-In this step we will tell our node that it should start cli listener, to do so we need to edit *local configuration* file `/var/db/ton/newton-testnet-node/db/config.json` and restart the node.
+#### Stop the node
+> sudo svc -d /var/service/newton-testnet-node
+
+#### Edit local configuration file
+In this step we will tell our node that it should start cli listener, to do so we need to edit *local configuration* file `/var/db/ton/newton-testnet-node/db/config.json`.
 
 ***Attention:*** Please backup your local configuration file before changing it.
 
@@ -155,6 +159,18 @@ Open the file `/var/db/ton/newton-testnet-node/db/config.json` in editor and ins
   }
 ],
 ```
+#### Test local configuration file JSON syntax
+Using python `json.tool` module we can validate if our json file is valid, run:
+> sudo python -m json.tool < /var/db/ton/newton-testnet-node/db/config.json
+
+If all is allright then it will show you contents of this file (succesful parse), if there are some errors it will tell you so.
+
+#### Start the node
+> sudo svc -u /var/service/newton-testnet-node
+
+#### Test cli client connection
+**TODO**
+
 ## Chapter 6: Configuring liteserver and client
 **TODO**
 
