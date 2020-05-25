@@ -4,6 +4,9 @@ This guide outlines process of conifguration and initialization of full node / v
 
 Following this guide you should be able to spawn nodes for other networks as well, even on the same machine / virtual host if you desire.
 
+## Table of content
+**[TODO]**
+
 ## Prerequesites / assumptions
 Completion of chapter 1 of [FreeBSD Telegram Open Network installation guide](./freebsd_ton_installation.md) and as a result:
 
@@ -110,7 +113,7 @@ Change into your home directory and execute:
 Record the *Hex* and *Base64* representations of generated public key. please see [Generation of PKI keypairs for TON](#generation-of-pki-keypairs-for-ton) for more info.
 
 Install the server *private key file* into *keyring* storage of the node instance:
-> sudo mv newton-testnet-node-server /var/db/ton/newton-testnet-node/db/keyring/***##HEX_SERVER_KEY##***\
+> sudo cp newton-testnet-node-server /var/db/ton/newton-testnet-node/db/keyring/***##HEX_SERVER_KEY##***\
 sudo chown tond:ton /var/db/ton/newton-testnet-node/db/keyring/***##HEX_SERVER_KEY##***
 
 ***Attention***: Please make sure to insert proper ***HEX***(!!) public key representation into the command above.
@@ -138,17 +141,19 @@ In this step we will tell our node that it should start cli listener, to do so w
 
 You need to replace `control` section that is by default empty and looks like this:
 ```json
-control" : [
+"control" : [
 ],
 ```
 
 With this:
 ```json
 "control" : [
-  { "id" : "##BASE64_SERVER_KEY##",
+  { 
+	"id" : "##BASE64_SERVER_KEY##",
     "port" : ##CONTROL_PORT##,
     "allowed" : [
-      { "id" : "##BASE64_CLIENT_KEY##",
+      { 
+		"id" : "##BASE64_CLIENT_KEY##",
         "permissions" : 15
       }
     ]
@@ -160,13 +165,13 @@ With this:
 You can also use script [mkcontrol.sh](./support/mkcontrol.sh). This script takes three arguments:
 * *HEX_SERVER_KEY* because hex is shell safe....
 * *HEX_CLIENT_KEY* because hex is shell safe....
-* *CONTROL_PORT*
+* *CONTROL_PORT* is a **TCP** port the node will listen to for control connections.
 
 And will return a proper JSON structure.
 
 #### Test local configuration file JSON syntax
 Using python `json.tool` module we can validate if our json file is valid, run:
-> sudo python -m json.tool < /var/db/ton/newton-testnet-node/db/config.json
+> sudo cat /var/db/ton/newton-testnet-node/db/config.json | python -m json.tool
 
 If all is allright then it will show you contents of this file (succesful parse), if there are some errors it will tell you so.
 
@@ -174,13 +179,90 @@ If all is allright then it will show you contents of this file (succesful parse)
 > sudo svc -u /var/service/newton-testnet-node
 
 #### Test cli client connection
-**TODO**
+> /usr/local/opt/ton/bin/validator-engine-console -k client -p newton-testnet-node-server.pub -a ##NODE_IP##:##CONTROL_PORT##
+**[TODO]**: More info
 
 ## Chapter 6: Configuring liteserver and client
-**TODO**
+### Why CLI client
+**[TODO]** Describe what the lite server is used for.
 
-## Chapter 7: mytonctl
-**TODO**
+### Prerequesites / assumptions
+1. Completion of chapters 1-3 of this guide with the result of working node.
+2. Ability to [control the node](./freebsd_ton_installation.md#chapter-2-running-node) using *daemontools* 
+
+We also assume that you chose to create a dedicated user *tond* and initialized the configuration using that user.
+
+### Architecture
+#### Transport
+Lite server functionality is client-server architecture where role of the client is played by binary *lite-client* and server is the same *validator-engine* process that runs the node.
+
+#### Security
+Security is based on PKI architecture by utilizing private/public key pairs for server. In difference to console Lite Server does not authenticate the clients and thus no client key is required.
+
+### Step 1: generation and installation of server PKI keypair
+Please see [Generation of PKI keypairs for TON](#generation-of-pki-keypairs-for-ton) for general information on how keypairs are generated.
+
+#### Server
+Each server should have it's own keypair, thus this step is needed for every server instance.
+
+Change into your home directory and execute:
+> /usr/local/opt/ton/bin/generate-random-id --mode keys --name newton-testnet-node-liteserver
+
+Record the *Hex* and *Base64* representations of generated public key. please see [Generation of PKI keypairs for TON](#generation-of-pki-keypairs-for-ton) for more info.
+
+Install the liteserver *private key file* into *keyring* storage of the node instance:
+> sudo cp newton-testnet-node-liteserver /var/db/ton/newton-testnet-node/db/keyring/***##HEX_SERVER_KEY##***\
+sudo chown tond:ton /var/db/ton/newton-testnet-node/db/keyring/***##HEX_SERVER_KEY##***
+
+***Attention***: Please make sure to insert proper ***HEX***(!!) public key representation into the command above.
+
+Server *public key file* `newton-testnet-node-liteserver.pub` will be used by *lite-client* and hense should be placed on where it is accesible by *lite-client* (possibly other machines).
+
+### Step 2: configuration of liteserver in the node
+#### Stop the node
+> sudo svc -d /var/service/newton-testnet-node
+
+#### Edit local configuration file
+In this step we will tell our node that it should start liteserver listener, to do so we need to edit *local configuration* file `/var/db/ton/newton-testnet-node/db/config.json`.
+
+***Attention:*** Please backup your local configuration file before changing it.
+
+You need to replace `liteserver` section that is by default empty and looks like this:
+```json
+"liteservers" : [
+],
+```
+
+With this:
+```json
+"liteservers" : [
+  {
+	"id" : "##BASE64_SERVER_KEY##",
+    "port" : ##CONTROL_PORT##
+  }
+],
+```
+***Attention***: Please make sure to insert proper ***BASE64***(!!) public key representation into the structure above. Also set a port on which to listen for cli connections.
+
+You can also use script [mklite.sh](./support/mklite.sh). This script takes two arguments:
+* *HEX_LITESERVER_KEY* because hex is shell safe....
+* *LITESERVER_PORT* is a **TCP** port the node will listen to for liteserver connections.
+
+And will return a proper JSON structure.
+
+#### Test local configuration file JSON syntax
+Using python `json.tool` module we can validate if our json file is valid, run:
+> sudo cat /var/db/ton/newton-testnet-node/db/config.json | python -m json.tool
+
+If all is allright then it will show you contents of this file (succesful parse), if there are some errors it will tell you so.
+
+#### Start the node
+> sudo svc -u /var/service/newton-testnet-node
+
+#### Test cli client connection
+> /usr/local/opt/ton/bin/lite-client -p newton-testnet-node-liteserver.pub -a ##NODE_IP##:##CONTROL_PORT##
+**[TODO]**: More info
+
 
 # Generation of PKI keypairs for TON 
 PKI keypars for ton are generated using `/usr/local/opt/ton/bin/generate-random-id` executable, each generation results in two files and two strings:

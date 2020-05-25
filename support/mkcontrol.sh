@@ -1,13 +1,31 @@
 #!/bin/sh
-# This script will generate JSON control structure for local configuration file.
+# This script will generate PKI Keys and control record for TON Node.
 #
 # Required params:
-# BASE64 representation of SERVER key
-# BASE64 representation of CLIENT key
-# Control server port
+# PORT number of control server
 #
-# Example: mkcontrol.sh F20F63AFEF12926D0B0A023C8AA8217BDFF731E60EEE236D3D21C535E7F88F9C 0DF90396788B6CEC38585A980DD346A0FD5122710338B0B014A94059D0B08CB6 22222
+# Prerequesites:
+# Executable generate-random-id (part of TON node software) in PATH
 #
+#
+
+####################################################################
+#
+# Some basic parameters
+#
+
+SERVER_KEY_NAME="server"
+CLIENT_KEY_NAME="client"
+GENBIN="generate-random-id"
+
+####################################################################
+#
+# Health checks
+#
+
+
+
+
 
 hex2base()
 {
