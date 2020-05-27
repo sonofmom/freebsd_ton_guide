@@ -9,6 +9,8 @@ There are few guides and ready solutions for TON Blockchain nodes but most of th
 ## Status
 Please note that this document is under heavy development, I am planning to improve guides in next days / weeks as well as create full binary package for FreeBSD to eliminate the need to compile and manually install the software.
 
+I also plan to integrate information now to install mytonctrl on FreeBSD (It is very Linux heavy but it works with manal install). For now please look at this quick doc I made in mytonctrl repo: https://github.com/igroman787/mytonctrl/tree/master/docs/manual_config
+
 ## Content
 * [FreeBSD Telegram Open Network installation guide](./freebsd_ton_installation.md): Describes process of building, installing and running TON binaries on FreeBSD systems.
 * [FreeBSD Telegram Open Network full node configuration guide](./freebsd_ton_fullnode_config.md): Describes process of configuring TON network full node.
